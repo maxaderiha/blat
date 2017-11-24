@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import {View, Image, Text, TouchableHighlight, StyleSheet} from 'react-native';
+import {BLUE, DARK_BLUE, WHITE} from '../../colors';
+
 
 export default class Article extends Component {
 
     render() {
-        const {title, text, image} = this.props;
+        const {title, description, image} = this.props;
         return (
-            <TouchableHighlight onPress={this.onViewMore}>
+            <TouchableHighlight
+                style={{marginTop: 15}}
+                underlayColor={BLUE}
+                onPress={this.onViewMore}>
                 <View
-                    style={styles.container}
-                >
+                    style={styles.container}>
                     <Text style={styles.title}>
                         {title}
                     </Text>
@@ -19,7 +23,7 @@ export default class Article extends Component {
                         resizeMode="cover"
                     />
                     <Text style={styles.text}>
-                        {text}
+                        {description}
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -36,11 +40,9 @@ const styles = StyleSheet.create({
     container: {
         minHeight: 250,
         justifyContent: 'space-between',
-        marginTop: 10,
         paddingTop: 10,
         paddingBottom: 10,
-        backgroundColor: '#fff',
-        elevation: 10,
+        backgroundColor: WHITE,
     },
     title: {
         marginBottom: 10,
@@ -48,7 +50,7 @@ const styles = StyleSheet.create({
         paddingRight: 5,
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#15619b',
+        color: DARK_BLUE,
     },
     text: {
         marginTop: 10,
@@ -59,5 +61,5 @@ const styles = StyleSheet.create({
     image: {
         height: 200,
         width: undefined,
-    }
+    },
 });

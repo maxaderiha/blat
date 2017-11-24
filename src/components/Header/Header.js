@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {BLUE, WHITE} from '../../colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 export default function ({navigation}) {
     return (
@@ -8,7 +10,7 @@ export default function ({navigation}) {
             <Ionicons
                 name={'md-menu'}
                 size={36}
-                color='#ffffff'
+                color={WHITE}
                 onPress={() => navigation.navigate('DrawerToggle')}
                 style={styles.icon}
             />
@@ -24,16 +26,16 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         maxHeight: 56,
-        backgroundColor: '#1b7dc8',
+        backgroundColor: BLUE,
         elevation: 5,
     },
     icon: {
         padding: 10,
-        color: '#ffffff',
+        color: WHITE,
     },
     title: {
         marginLeft: 30,
         fontSize: 20,
-        color: '#ffffff',
-    }
+        color: WHITE,
+    },
 });

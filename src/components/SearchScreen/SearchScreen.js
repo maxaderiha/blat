@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import Header from '../Header/Header';
 
+
 export default class SearchScreen extends Component {
 
     render() {
