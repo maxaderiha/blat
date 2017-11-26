@@ -5,6 +5,6 @@ import api from '../middlewares/api';
 import logger from '../middlewares/logger';
 
 
-const enhancer = applyMiddleware(api, logger);
+const enhancer = applyMiddleware(api);
 
 export default store = createStore(reducer, {}, enhancer);

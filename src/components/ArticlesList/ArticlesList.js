@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react';
-import {VirtualizedList, RefreshControl} from 'react-native';
+import React, {Component} from 'react';
+import {VirtualizedList, RefreshControl, View} from 'react-native';
 import {loadArticles, loadMoreArticles} from '../../action-creators/index';
 import {connect} from 'react-redux';
 import Article from '../Article/Article';
@@ -8,18 +8,18 @@ import Loader from '../Loader/Loader';
 import {GREY, BLUE, WHITE, DARK_BLUE} from '../../colors';
 
 
-class ArticlesList extends PureComponent {
+class ArticlesList extends Component {
     componentDidMount() {
-        const {loaded, loading, loadArticles} = this.props;
-        if (!loaded || !loading) loadArticles();
+        const {loadedAll, loading, loadArticles} = this.props;
+        if (!loadedAll && !loading) loadArticles();
     }
 
     render() {
-        console.log('---', 'update');
         const {articles, loading, loadArticles} = this.props;
-
+        debugger;
         if (loading) return <Loader type='bubbles' size={10} color={DARK_BLUE}/>;
 
+        console.log('--- update');
         return (
             <VirtualizedList
                 style={{backgroundColor: GREY}}
@@ -28,6 +28,10 @@ class ArticlesList extends PureComponent {
                 getItemCount={this._getItemCount}
                 keyExtractor={this._keyExtractor}
                 renderItem={this._renderItem}
+                ItemSeparatorComponent={this.renderSeparator}
+                onEndReached={this.onEndReachedHandle}
+                ListFooterComponent={this.renderFooter}
+                windowSize={11}
                 refreshControl={
                     <RefreshControl
                         onRefresh={loadArticles.bind(this)}
@@ -36,23 +40,26 @@ class ArticlesList extends PureComponent {
                         progressBackgroundColor={WHITE}
                     />
                 }
-                onEndReached={this.onEndReachedHandle}
-                onEndReachedTreshload={10}
-                ListFooterComponent={this.renderFooter}
-                windowSize={11}
             />
         );
     }
 
     renderFooter = () => {
-        const {loadingMore} = this.props;
-        if (!loadingMore) return null;
-        return <Loader type='pulse' color={WHITE} size={20}/>;
+        const {loadedAll} = this.props;
+        if (loadedAll) return null;
+        return <Loader type='bubbles' color={WHITE} size={8}/>;
     };
 
+    renderSeparator = () => (
+        <View style={{
+            flex: 1,
+            height: 15,
+        }}/>
+    );
+
     onEndReachedHandle = () => {
-        const {articles, loadMoreArticles} = this.props;
-        loadMoreArticles(articles.length, 10);
+        const {articles, loadMoreArticles, loadedAll} = this.props;
+        if (articles.length >= 5 && !loadedAll) loadMoreArticles(articles.length, 5);
     };
 
     _getItem = (data, index) => data[index];
@@ -62,20 +69,17 @@ class ArticlesList extends PureComponent {
     _renderItem = ({item}) => (
         <Article
             navigation={this.props.navigation}
-            title={item.title}
-            description={`${item.description.slice(0, 140)}...`}
-            image={item.image}
+            article={item}
         />
     );
 
-    _keyExtractor = (item, index) => item.id;
+    _keyExtractor = (item, index) => item._id;
 }
 
 export default connect(state => {
     return {
         articles: mapToArr(state.articles.entities),
         loading: state.articles.loading,
-        loadingMore: state.articles.loadingMore,
-        loaded: state.articles.loaded,
+        loadedAll: state.articles.loadedAll,
     };
 }, {loadArticles, loadMoreArticles})(ArticlesList);

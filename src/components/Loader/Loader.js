@@ -20,7 +20,7 @@ const components = {
     doubleBounce: DoubleBounce,
 };
 
-export default function Loader({type, size, color}) {
+export default function Loader({type = 'bubbles', size = 10, color = '#000'}) {
     const Spinner = components[type];
     return (
         <View style={styles.container}>
