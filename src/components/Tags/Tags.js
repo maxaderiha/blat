@@ -25,8 +25,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
         alignContent: 'center',
-        marginTop: 5,
-        paddingLeft: 5,
     },
     tag: {
         fontSize: 14,

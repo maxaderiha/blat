@@ -41,7 +41,7 @@ export const ArticleStack = StackNavigator({
     DetailsArticle: {
         screen: ArticleDetails,
         navigationOptions: ({navigation}) => ({
-            title: `${navigation.state.params.article.title}`,
+            title: `${navigation.state.params.title}`,
             headerTintColor: WHITE,
             headerPressColorAndroid: WHITE,
             headerStyle: styles.header,

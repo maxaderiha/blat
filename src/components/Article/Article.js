@@ -1,11 +1,15 @@
-import React, {Component} from 'react';
-import {View, Image, Text, TouchableHighlight, StyleSheet} from 'react-native';
-import Tags from '../Tags/Tags';
-import {BLUE, DARK_BLUE, WHITE} from '../../colors';
+import React, {PureComponent} from 'react';
 import moment from 'moment';
+import {connect} from 'react-redux';
+import {articlesSelectorFactory} from '../../selectors/index';
+import {View, Image, Text, TouchableHighlight} from 'react-native';
+
+import {styles} from './styles';
+import {BLUE} from '../../colors';
+import Tags from '../Tags/Tags';
 
 
-export default class Article extends Component {
+class Article extends PureComponent {
     render() {
         const {title, date, description, img, tags} = this.props.article;
 
@@ -13,6 +17,7 @@ export default class Article extends Component {
             sameElse: 'DD.MM.YYYY',
         });
 
+        console.log('--- update article');
         return (
             <TouchableHighlight
                 underlayColor={BLUE}
@@ -32,51 +37,27 @@ export default class Article extends Component {
                     <Text style={styles.text}>
                         {`${description.slice(0, 140)}...`}
                     </Text>
-                    <Tags tags={tags}/>
+                    <View style={styles.tags}>
+                        <Tags tags={tags}/>
+                    </View>
                 </View>
             </TouchableHighlight>
         );
     }
 
     onViewMore = () => {
-        const {article} = this.props;
-        this.props.navigation.navigate('DetailsArticle', {article});
+        const {_id} = this.props;
+        const {title} = this.props.article;
+        this.props.navigation.navigate('DetailsArticle', {_id, title});
     };
 }
 
-const styles = StyleSheet.create({
-    container: {
-        minHeight: 250,
-        paddingTop: 10,
-        paddingBottom: 10,
-        backgroundColor: WHITE,
-    },
-    title: {
-        marginBottom: 2,
-        paddingLeft: 15,
-        paddingRight: 5,
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: DARK_BLUE,
-    },
-    date: {
-        marginBottom: 10,
-        paddingLeft: 15,
-        fontSize: 12,
-        color: '#505050',
-    },
-    text: {
-        marginTop: 10,
-        paddingLeft: 5,
-        paddingRight: 5,
-        fontSize: 16,
-    },
-    image: {
-        height: 200,
-        width: undefined,
-    },
-    tags: {
-        marginTop: 10,
-        paddingLeft: 15,
-    },
-});
+const mapStateToProps = () => {
+    const articleSelector = articlesSelectorFactory();
+
+    return (state, ownProps) => {
+        return {article: articleSelector(state, ownProps)}
+    }
+};
+
+export default connect(mapStateToProps)(Article);

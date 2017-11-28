@@ -1,17 +1,35 @@
 import React, {Component} from 'react';
-import {ScrollView, View, Text, StyleSheet, Image} from 'react-native';
-import Tags from '../Tags/Tags';
-import {DARK_BLUE, WHITE} from '../../colors';
 import moment from 'moment';
+import {connect} from 'react-redux';
+import {ScrollView, View, Text, Image} from 'react-native';
+
+import {DARK_BLUE} from '../../colors';
+import {styles} from './styles';
+import {articlesSelectorFactory} from '../../selectors/index';
+import {loadArticle} from '../../action-creators';
+import Loader from '../Loader/Loader';
+import Tags from '../Tags/Tags';
+import Error from '../ErroreMessage/ErroreMessage';
 
 
-export default class ArticleDetails extends Component {
+class ArticleDetails extends Component {
+    componentDidMount() {
+        const {_id} = this.props.navigation.state.params;
+        const {loadArticle, article: {loaded, loading}} = this.props;
+
+        if (!loaded && !loading) loadArticle(_id);
+    }
+
     render() {
-        const {title, img, date, tags} = this.props.navigation.state.params.article;
+        debugger;
+        const {title, img, date, tags, content, images, error, loading} = this.props.article;
 
-        const formatDate = moment(date).calendar(null, {
-            sameElse: 'DD.MM.YYYY',
-        });
+        const formatDate = moment(date).calendar(null, {sameElse: 'DD.MM.YYYY',});
+
+        console.log('--- update article detail');
+
+        if (loading) return <Loader type='bubbles' size={10} color={DARK_BLUE}/>;
+        if (error) return <Error status={error}/>;
 
         return (
             <ScrollView style={styles.scrollContainer}>
@@ -28,46 +46,24 @@ export default class ArticleDetails extends Component {
                         resizeMode="cover"
                     />
                     <Text style={styles.text}>
-                        Content..
+                        {content}
                     </Text>
-                    <Tags tags={tags}/>
+                    <View style={styles.tags}>
+                        <Tags tags={tags}/>
+                    </View>
                 </View>
             </ScrollView>
         );
     }
 }
 
-const styles = StyleSheet.create({
-    scrollContainer: {
-        backgroundColor: WHITE,
-    },
-    container: {
-        flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-    },
-    title: {
-        marginBottom: 2,
-        paddingLeft: 15,
-        paddingRight: 5,
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: DARK_BLUE,
-    },
-    date: {
-        marginBottom: 10,
-        paddingLeft: 15,
-        fontSize: 12,
-        color: '#505050',
-    },
-    text: {
-        marginTop: 10,
-        paddingLeft: 5,
-        paddingRight: 5,
-        fontSize: 16,
-    },
-    image: {
-        height: 200,
-        width: undefined,
-    },
-});
+const mapStateToProps = () => {
+    const articleSelector = articlesSelectorFactory();
+
+    return (state, ownProps) => {
+        const props = ownProps.navigation.state.params;
+        return {article: articleSelector(state, props)}
+    }
+};
+
+export default connect(mapStateToProps, {loadArticle})(ArticleDetails);

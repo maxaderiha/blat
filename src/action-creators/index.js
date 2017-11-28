@@ -9,14 +9,9 @@ export function loadArticle(id) {
     return {
         type: LOAD_ARTICLE,
         payload: {
-            callAPI: `/articles/detailed-view?id=${id}`,
-            body: {
-                date: 0,
-                title: 0,
-                img: 0,
-                description: 0,
-                tags: 0,
-            },
+            callAPI: `/article?id=${id}&projection=content&projection=images`,
+            id,
+            method: 'GET',
         },
     }
 }
@@ -32,6 +27,7 @@ export function loadArticles(skip = 0, top = 5) {
                     content: 0,
                 },
             },
+            method: 'PUT',
         },
     };
 }
@@ -47,6 +43,7 @@ export function loadMoreArticles(skip = 0, top = 5) {
                     content: 0,
                 },
             },
+            method: 'PUT',
         },
     };
 }

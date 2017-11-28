@@ -1,6 +1,8 @@
 import {
     FAIL,
-    LOAD_ARTICLES, LOAD_MORE_ARTICLES,
+    LOAD_ARTICLE,
+    LOAD_ARTICLES,
+    LOAD_MORE_ARTICLES,
     START,
     SUCCESS,
 } from '../constants';
@@ -13,10 +15,13 @@ const ArticleRecord = Record({
     date: undefined,
     title: undefined,
     img: undefined,
-    images: undefined,
     description: undefined,
-    content: undefined,
     tags: undefined,
+    images: undefined,
+    content: undefined,
+    loading: false,
+    loaded: false,
+    error: false,
 });
 
 const ReducerState = new Record({
@@ -28,8 +33,9 @@ const ReducerState = new Record({
 const defaultArticlesState = ReducerState();
 
 export default (articlesState = defaultArticlesState, action) => {
-    const {type, response} = action;
+    const {type, payload, response} = action;
 
+    debugger;
     switch (type) {
         case LOAD_ARTICLES + START:
             return articlesState.set('loading', true);
@@ -40,8 +46,6 @@ export default (articlesState = defaultArticlesState, action) => {
                 .set('loadedAll', false)
                 .set('entities', arrToMap(response, ArticleRecord));
 
-        // case LOAD_MORE_ARTICLES + START:
-
         case LOAD_MORE_ARTICLES + SUCCESS:
             if (response === 404) {
                 return articlesState.set('loadedAll', true);
@@ -49,7 +53,20 @@ export default (articlesState = defaultArticlesState, action) => {
             return articlesState
                 .update('entities', loadedArticles => loadedArticles.merge(arrToMap(response, ArticleRecord)));
 
-        // case LOAD_MORE_ARTICLES + FAIL:
+        case LOAD_ARTICLE + START:
+            return articlesState.setIn(['entities', payload.id, 'loading'], true);
+
+        case LOAD_ARTICLE + SUCCESS:
+            // if (typeof response === 'number') {
+            //     return articlesState
+            //         .setIn(['entities', payload.id, 'loading'], false)
+            //         .setIn(['entities', payload.id, 'error'], response);
+            // }
+            return articlesState
+                .setIn(['entities', payload.id, 'loading'], false)
+                .setIn(['entities', payload.id, 'loaded'], true)
+                .setIn(['entities', payload.id, 'images'], response.images)
+                .setIn(['entities', payload.id, 'content'], response.content);
 
         default:
             return articlesState;

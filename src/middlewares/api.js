@@ -8,22 +8,28 @@ import {
 
 export default store => next => action => {
     const {type, payload, ...rest} = action;
-    const {callAPI, body} = payload;
+    const {callAPI, body, method} = payload;
     if (!callAPI) return next(action);
 
     next({
         ...rest,
+        payload,
         type: type + START,
     });
 
-    fetch(`${SERVER}${callAPI}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-    })
-        .then(res => res.status === 200 ? res.json() : res.status)
-        .then(response => next({...rest, type: type + SUCCESS, response}))
-        .catch(err => next({...rest, type: type + FAIL, err}));
+    setTimeout(() => {
+        fetch(`${SERVER}${callAPI}`, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        })
+            .then(res => {
+                debugger;
+                return res.status === 200 ? res.json() : res.status
+            })
+            .then(response => next({...rest, payload, type: type + SUCCESS, response}))
+            .catch(err => next({...rest, payload, type: type + FAIL, err}));
+    }, 2000);
 }

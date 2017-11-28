@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
-import {VirtualizedList, RefreshControl, View} from 'react-native';
-import {loadArticles, loadMoreArticles} from '../../action-creators/index';
+import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
+import {VirtualizedList, RefreshControl, View} from 'react-native';
+
 import Article from '../Article/Article';
-import {mapToArr} from '../../utils';
-import Loader from '../Loader/Loader';
+import {articlesSelector} from '../../selectors/index';
 import {GREY, BLUE, WHITE, DARK_BLUE} from '../../colors';
+import {loadArticles, loadMoreArticles} from '../../action-creators/index';
+import Loader from '../Loader/Loader';
 
 
-class ArticlesList extends Component {
+class ArticlesList extends PureComponent {
     componentDidMount() {
         const {loadedAll, loading, loadArticles} = this.props;
         if (!loadedAll && !loading) loadArticles();
@@ -16,10 +17,11 @@ class ArticlesList extends Component {
 
     render() {
         const {articles, loading, loadArticles} = this.props;
-        debugger;
+
         if (loading) return <Loader type='bubbles' size={10} color={DARK_BLUE}/>;
 
         console.log('--- update');
+
         return (
             <VirtualizedList
                 style={{backgroundColor: GREY}}
@@ -69,7 +71,7 @@ class ArticlesList extends Component {
     _renderItem = ({item}) => (
         <Article
             navigation={this.props.navigation}
-            article={item}
+            _id={item._id}
         />
     );
 
@@ -78,7 +80,7 @@ class ArticlesList extends Component {
 
 export default connect(state => {
     return {
-        articles: mapToArr(state.articles.entities),
+        articles: articlesSelector(state),
         loading: state.articles.loading,
         loadedAll: state.articles.loadedAll,
     };
