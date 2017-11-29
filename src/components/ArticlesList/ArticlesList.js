@@ -4,12 +4,16 @@ import {VirtualizedList, RefreshControl, View} from 'react-native';
 
 import Article from '../Article/Article';
 import {articlesSelector} from '../../selectors/index';
-import {GREY, BLUE, WHITE, DARK_BLUE} from '../../colors';
+import {LIGHT_GREY, BLUE, WHITE} from '../../colors';
 import {loadArticles, loadMoreArticles} from '../../action-creators/index';
 import Loader from '../Loader/Loader';
 
 
 class ArticlesList extends PureComponent {
+    constructor(props) {
+        super(props)
+    }
+
     componentDidMount() {
         const {loadedAll, loading, loadArticles} = this.props;
         if (!loadedAll && !loading) loadArticles();
@@ -18,13 +22,13 @@ class ArticlesList extends PureComponent {
     render() {
         const {articles, loading, loadArticles} = this.props;
 
-        if (loading) return <Loader type='bubbles' size={10} color={DARK_BLUE}/>;
+        if (loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
 
-        console.log('--- update');
+        console.log('--- update list');
 
         return (
             <VirtualizedList
-                style={{backgroundColor: GREY}}
+                style={{backgroundColor: WHITE}}
                 data={articles}
                 getItem={this._getItem}
                 getItemCount={this._getItemCount}
@@ -38,7 +42,7 @@ class ArticlesList extends PureComponent {
                     <RefreshControl
                         onRefresh={loadArticles.bind(this)}
                         refreshing={loading}
-                        colors={[BLUE, DARK_BLUE]}
+                        colors={[BLUE]}
                         progressBackgroundColor={WHITE}
                     />
                 }
@@ -49,13 +53,14 @@ class ArticlesList extends PureComponent {
     renderFooter = () => {
         const {loadedAll} = this.props;
         if (loadedAll) return null;
-        return <Loader type='bubbles' color={WHITE} size={8}/>;
+        return <Loader type='bubbles' color={LIGHT_GREY} size={8}/>;
     };
 
     renderSeparator = () => (
         <View style={{
             flex: 1,
-            height: 15,
+            height: 0.5,
+            backgroundColor: LIGHT_GREY,
         }}/>
     );
 

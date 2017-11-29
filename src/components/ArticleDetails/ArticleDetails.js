@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {ScrollView, View, Text, Image} from 'react-native';
 
-import {DARK_BLUE} from '../../colors';
+import {BLUE} from '../../colors';
 import {styles} from './styles';
 import {articlesSelectorFactory} from '../../selectors/index';
 import {loadArticle} from '../../action-creators';
@@ -12,7 +12,11 @@ import Tags from '../Tags/Tags';
 import Error from '../ErroreMessage/ErroreMessage';
 
 
-class ArticleDetails extends Component {
+class ArticleDetails extends PureComponent {
+    constructor(props) {
+        super(props)
+    }
+
     componentDidMount() {
         const {_id} = this.props.navigation.state.params;
         const {loadArticle, article: {loaded, loading}} = this.props;
@@ -28,7 +32,7 @@ class ArticleDetails extends Component {
 
         console.log('--- update article detail');
 
-        if (loading) return <Loader type='bubbles' size={10} color={DARK_BLUE}/>;
+        if (loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
         if (error) return <Error status={error}/>;
 
         return (

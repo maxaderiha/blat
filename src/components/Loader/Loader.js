@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Bubbles, Bars, DoubleBounce, Pulse} from 'react-native-loader';
+import {WHITE} from '../../colors';
 
 
 const styles = StyleSheet.create({
@@ -8,8 +9,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
-        marginBottom: 20,
+        paddingTop: 20,
+        paddingBottom: 20,
+        backgroundColor: WHITE,
     },
 });
 

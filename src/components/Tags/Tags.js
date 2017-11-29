@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import {BLUE, DARK_GRAY, GREY} from '../../colors';
+import {BLUE, GRAY, LIGHT_GREY, WHITE} from '../../colors';
 
 
 export default function Tags({tags}) {
@@ -10,7 +10,6 @@ export default function Tags({tags}) {
                 (tag, index) =>
                     <TouchableHighlight
                         key={index}
-                        underlayColor={BLUE}
                         style={styles.tagWrap}>
                         <Text style={styles.tag}>{tag}</Text>
                     </TouchableHighlight>)}
@@ -29,12 +28,12 @@ const styles = StyleSheet.create({
     tag: {
         fontSize: 14,
         lineHeight: 18,
-        color: DARK_GRAY,
+        color: WHITE,
     },
     tagWrap: {
         marginRight: 10,
         padding: 5,
-        backgroundColor: GREY,
+        backgroundColor: BLUE,
         borderRadius: 10,
     },
 });

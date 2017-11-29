@@ -10,6 +10,10 @@ import Tags from '../Tags/Tags';
 
 
 class Article extends PureComponent {
+    constructor(props) {
+        super(props)
+    }
+
     render() {
         const {title, date, description, img, tags} = this.props.article;
 
@@ -20,7 +24,6 @@ class Article extends PureComponent {
         console.log('--- update article');
         return (
             <TouchableHighlight
-                underlayColor={BLUE}
                 onPress={this.onViewMore}>
                 <View style={styles.container}>
                     <Text style={styles.title}>
