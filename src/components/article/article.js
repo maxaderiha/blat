@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import {articlesSelectorFactory} from '../../selectors/index';
 import {View, Image, Text, TouchableHighlight} from 'react-native';
 
-import {styles} from './styles';
+import {styles} from './article.styles';
 import {BLUE} from '../../colors';
-import Tags from '../Tags/Tags';
+import Tags from '../tags/tags';
 
 
 class Article extends PureComponent {

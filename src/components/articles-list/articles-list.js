@@ -2,11 +2,11 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {VirtualizedList, RefreshControl, View} from 'react-native';
 
-import Article from '../Article/Article';
+import Article from '../article/article';
 import {articlesSelector} from '../../selectors/index';
 import {LIGHT_GREY, BLUE, WHITE} from '../../colors';
 import {loadArticles, loadMoreArticles} from '../../action-creators/index';
-import Loader from '../Loader/Loader';
+import Loader from '../loader/loader';
 
 
 class ArticlesList extends PureComponent {

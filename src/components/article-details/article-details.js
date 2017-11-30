@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {ScrollView, View, Text, Image, TouchableHighlight} from 'react-native';
 
 import {BLUE} from '../../colors';
-import {styles} from './styles';
+import {styles} from './article-details.styles';
 import {loadArticle} from '../../action-creators';
-import Loader from '../Loader/Loader';
-import Tags from '../Tags/Tags';
-import Error from '../ErroreMessage/ErroreMessage';
-import ImagesViewer from '../image-viewer';
+import Loader from '../loader/loader';
+import Tags from '../tags/tags';
+import Error from '../errore-message/errore-message';
+import ImagesViewer from '../images-viewer/images-viewer';
 
 
 class ArticleDetails extends PureComponent {
@@ -87,5 +87,5 @@ class ArticleDetails extends PureComponent {
 
 export default connect((state, ownProps) => {
     const {_id} = ownProps.navigation.state.params;
-    return {article: state.article.entities.get(_id)}
+    return {article: state.articles.entities.get(_id)}
 }, {loadArticle})(ArticleDetails);

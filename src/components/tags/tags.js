@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import {BLUE, GRAY, LIGHT_GREY, WHITE} from '../../colors';
+import {BLUE, WHITE} from '../../colors';
 
 
 export default function Tags({tags}) {

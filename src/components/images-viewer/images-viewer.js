@@ -15,7 +15,6 @@ export default class ImagesViewer extends Component {
     }
 
     render() {
-        debugger;
         const {isOpen, handleOnRequestClose, images = []} = this.props;
 
         return (

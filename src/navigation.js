@@ -1,27 +1,34 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import SearchScreen from './components/SearchScreen/SearchScreen';
-import AddArticleScreen from './components/AddArticleScreen/AddArticleScreen';
-import ArticlesList from './components/ArticlesList/ArticlesList';
-import ArticleDetails from './components/ArticleDetails/ArticleDetails';
+import Search from './components/search/search';
+import ArticleAdding from './components/article-adding/article-adding';
+import ArticlesList from './components/articles-list/articles-list';
+import ArticleDetails from './components/article-details/article-details';
 import {BLUE, GRAY, DARK_GRAY, WHITE, LIGHT_GREY} from './colors';
+import Ripple from 'react-native-material-ripple';
 
 
 const styles = StyleSheet.create({
     headerIcon: {
-        padding: 10,
-        paddingRight: 15,
+        margin: 16,
+        width: 24,
+        height: 24,
         color: DARK_GRAY,
         fontWeight: 'bold',
+    },
+    headerIconWrap: {
+        alignItems: 'center',
+        width: 56,
+        height: 56,
     },
     header: {
         backgroundColor: WHITE,
     },
     tabBar: {
         backgroundColor: WHITE,
-        elevation: 8,
+        elevation: 10,
     },
 });
 
@@ -32,11 +39,16 @@ export const ArticlesListStack = StackNavigator({
             title: 'Home',
             headerTintColor: DARK_GRAY,
             headerStyle: styles.header,
-            headerRight: <Icon
-                name={'filter-list'}
-                size={26}
-                style={styles.headerIcon}
-            />,
+            headerRight:
+                <Ripple>
+                    <View style={styles.headerIconWrap}>
+                        <Icon
+                            name={'filter-list'}
+                            size={24}
+                            style={styles.headerIcon}
+                        />
+                    </View>
+                </Ripple>,
         }),
     },
     DetailsArticle: {
@@ -63,7 +75,7 @@ export const RootNavigation = TabNavigator({
 
     },
     Addition: {
-        screen: AddArticleScreen,
+        screen: ArticleAdding,
         navigationOptions: {
             tabBarIcon: ({tintColor}) => (
                 <Icon
@@ -75,7 +87,7 @@ export const RootNavigation = TabNavigator({
         },
     },
     Search: {
-        screen: SearchScreen,
+        screen: Search,
         navigationOptions: {
             tabBarIcon: ({tintColor}) => (<Icon
                 name={'search'}
