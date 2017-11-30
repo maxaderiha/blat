@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
         color: DARK_GRAY,
     },
     image: {
-        height: 200,
+        height: 260,
         width: undefined,
     },
     tags: {

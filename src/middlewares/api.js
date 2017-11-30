@@ -26,7 +26,6 @@ export default store => next => action => {
             body: JSON.stringify(body),
         })
             .then(res => {
-                debugger;
                 return res.status === 200 ? res.json() : res.status
             })
             .then(response => next({...rest, payload, type: type + SUCCESS, response}))

@@ -1,20 +1,25 @@
 import React, {PureComponent} from 'react';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {ScrollView, View, Text, Image} from 'react-native';
+import {ScrollView, View, Text, Image, TouchableHighlight} from 'react-native';
 
 import {BLUE} from '../../colors';
 import {styles} from './styles';
-import {articlesSelectorFactory} from '../../selectors/index';
 import {loadArticle} from '../../action-creators';
 import Loader from '../Loader/Loader';
 import Tags from '../Tags/Tags';
 import Error from '../ErroreMessage/ErroreMessage';
+import ImagesViewer from '../image-viewer';
 
 
 class ArticleDetails extends PureComponent {
     constructor(props) {
-        super(props)
+        super(props);
+
+        this.state = {
+            imagesViewerVisible: false,
+        };
+
     }
 
     componentDidMount() {
@@ -25,14 +30,12 @@ class ArticleDetails extends PureComponent {
     }
 
     render() {
-        debugger;
-        const {title, img, date, tags, content, images, error, loading} = this.props.article;
-
+        const {title, img, date, tags, content, images, error, loading, loaded} = this.props.article;
         const formatDate = moment(date).calendar(null, {sameElse: 'DD.MM.YYYY',});
 
         console.log('--- update article detail');
 
-        if (loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
+        if (!loaded || loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
         if (error) return <Error status={error}/>;
 
         return (
@@ -44,10 +47,17 @@ class ArticleDetails extends PureComponent {
                     <Text style={styles.date}>
                         {formatDate}
                     </Text>
-                    <Image
-                        style={styles.image}
-                        source={{uri: img}}
-                        resizeMode="cover"
+                    <TouchableHighlight onPress={this.openImagesViewer}>
+                        <Image
+                            style={styles.image}
+                            source={{uri: img}}
+                            resizeMode="cover"
+                        />
+                    </TouchableHighlight>
+                    <ImagesViewer
+                        isOpen={this.state.imagesViewerVisible}
+                        images={this.sendImages(images, img)}
+                        handleOnRequestClose={this.closeImagesViewer}
                     />
                     <Text style={styles.text}>
                         {content}
@@ -59,15 +69,23 @@ class ArticleDetails extends PureComponent {
             </ScrollView>
         );
     }
+
+    sendImages = (images, img) => {
+        if (!images) return;
+        return [{url: img}].concat(images.map(url => ({url})))
+    };
+
+    closeImagesViewer = () => {
+        this.setState({imagesViewerVisible: false});
+    };
+
+    openImagesViewer = () => {
+        debugger;
+        this.setState({imagesViewerVisible: true});
+    }
 }
 
-const mapStateToProps = () => {
-    const articleSelector = articlesSelectorFactory();
-
-    return (state, ownProps) => {
-        const props = ownProps.navigation.state.params;
-        return {article: articleSelector(state, props)}
-    }
-};
-
-export default connect(mapStateToProps, {loadArticle})(ArticleDetails);
+export default connect((state, ownProps) => {
+    const {_id} = ownProps.navigation.state.params;
+    return {article: state.article.entities.get(_id)}
+}, {loadArticle})(ArticleDetails);

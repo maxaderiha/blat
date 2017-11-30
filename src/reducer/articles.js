@@ -7,7 +7,7 @@ import {
     SUCCESS,
 } from '../constants';
 import {OrderedMap, Record} from 'immutable';
-import {arrToMap} from '../utils';
+import {arrToMap} from '../utils/transform-collections';
 
 
 const ArticleRecord = Record({
@@ -35,7 +35,6 @@ const defaultArticlesState = ReducerState();
 export default (articlesState = defaultArticlesState, action) => {
     const {type, payload, response} = action;
 
-    debugger;
     switch (type) {
         case LOAD_ARTICLES + START:
             return articlesState.set('loading', true);
@@ -57,11 +56,6 @@ export default (articlesState = defaultArticlesState, action) => {
             return articlesState.setIn(['entities', payload.id, 'loading'], true);
 
         case LOAD_ARTICLE + SUCCESS:
-            // if (typeof response === 'number') {
-            //     return articlesState
-            //         .setIn(['entities', payload.id, 'loading'], false)
-            //         .setIn(['entities', payload.id, 'error'], response);
-            // }
             return articlesState
                 .setIn(['entities', payload.id, 'loading'], false)
                 .setIn(['entities', payload.id, 'loaded'], true)
