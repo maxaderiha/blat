@@ -1,11 +1,11 @@
 import React from 'react';
-import Main from './src/main';
+import Root from './src/root';
 
 
 export default class App extends React.Component {
     render() {
         return (
-            <Main/>
+            <Root/>
         );
     }
 }

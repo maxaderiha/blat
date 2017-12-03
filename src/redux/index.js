@@ -1,10 +1,8 @@
 import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 import reducer from '../reducer/index';
 
-import api from '../middlewares/api';
-import logger from '../middlewares/logger';
 
-
-const enhancer = applyMiddleware(api);
+const enhancer = applyMiddleware(thunk);
 
 export default store = createStore(reducer, {}, enhancer);

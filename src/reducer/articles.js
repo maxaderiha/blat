@@ -21,36 +21,36 @@ const ArticleRecord = Record({
     content: undefined,
     loading: false,
     loaded: false,
-    error: false,
+    error: undefined,
 });
 
 const ReducerState = new Record({
+    total: 10,
     loading: false,
-    loadedAll: false,
     entities: new OrderedMap({}),
+    error: undefined,
 });
 
 const defaultArticlesState = ReducerState();
 
 export default (articlesState = defaultArticlesState, action) => {
-    const {type, payload, response} = action;
-
+    const {type, payload} = action;
+    debugger;
     switch (type) {
         case LOAD_ARTICLES + START:
             return articlesState.set('loading', true);
 
         case LOAD_ARTICLES + SUCCESS:
+        case LOAD_MORE_ARTICLES + SUCCESS:
             return articlesState
                 .set('loading', false)
-                .set('loadedAll', false)
-                .set('entities', arrToMap(response, ArticleRecord));
+                .update('entities', entities => entities.merge(arrToMap(payload.response, ArticleRecord)));
 
-        case LOAD_MORE_ARTICLES + SUCCESS:
-            if (response === 404) {
-                return articlesState.set('loadedAll', true);
-            }
+        case LOAD_ARTICLES + FAIL:
+        case LOAD_MORE_ARTICLES + FAIL:
             return articlesState
-                .update('entities', loadedArticles => loadedArticles.merge(arrToMap(response, ArticleRecord)));
+                .set('loading', false)
+                .set('error', payload.error.message);
 
         case LOAD_ARTICLE + START:
             return articlesState.setIn(['entities', payload.id, 'loading'], true);
@@ -59,8 +59,13 @@ export default (articlesState = defaultArticlesState, action) => {
             return articlesState
                 .setIn(['entities', payload.id, 'loading'], false)
                 .setIn(['entities', payload.id, 'loaded'], true)
-                .setIn(['entities', payload.id, 'images'], response.images)
-                .setIn(['entities', payload.id, 'content'], response.content);
+                .setIn(['entities', payload.id, 'images'], payload.response.images)
+                .setIn(['entities', payload.id, 'content'], payload.response.content);
+
+        case LOAD_ARTICLE + FAIL:
+            return articlesState
+                .setIn(['entities', payload.id, 'loading'], false)
+                .setIn(['entities', payload.id, 'error'], payload.error.message);
 
         default:
             return articlesState;

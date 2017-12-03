@@ -16,7 +16,6 @@ export default class ImagesViewer extends Component {
 
     render() {
         const {isOpen, handleOnRequestClose, images = []} = this.props;
-
         return (
             <Modal
                 visible={isOpen}

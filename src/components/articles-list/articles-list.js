@@ -5,23 +5,21 @@ import {VirtualizedList, RefreshControl, View} from 'react-native';
 import Article from '../article/article';
 import {articlesSelector} from '../../selectors/index';
 import {LIGHT_GREY, BLUE, WHITE} from '../../colors';
-import {loadArticles, loadMoreArticles} from '../../action-creators/index';
+import {loadArticles} from '../../action-creators/index';
 import Loader from '../loader/loader';
+import ErrorMessage from '../errore-message/errore-message';
 
 
 class ArticlesList extends PureComponent {
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
-        const {loadedAll, loading, loadArticles} = this.props;
-        if (!loadedAll && !loading) loadArticles();
+        const {loading, loadArticles} = this.props;
+        if (!loading) loadArticles();
     }
 
     render() {
-        const {articles, loading, loadArticles} = this.props;
-
+        const {articles, loading, loadArticles, error} = this.props;
+        debugger;
+        if (error) return <ErrorMessage message={error}/>;
         if (loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
 
         console.log('--- update list');
@@ -51,9 +49,10 @@ class ArticlesList extends PureComponent {
     }
 
     renderFooter = () => {
-        const {loadedAll} = this.props;
-        if (loadedAll) return null;
-        return <Loader type='bubbles' color={LIGHT_GREY} size={8}/>;
+        debugger;
+        const {articles, total, error} = this.props;
+        if ((articles.length < total) && !error) return <Loader type='bubbles' color={LIGHT_GREY} size={8}/>;
+        return null;
     };
 
     renderSeparator = () => (
@@ -65,8 +64,8 @@ class ArticlesList extends PureComponent {
     );
 
     onEndReachedHandle = () => {
-        const {articles, loadMoreArticles, loadedAll} = this.props;
-        if (articles.length >= 5 && !loadedAll) loadMoreArticles(articles.length, 5);
+        const {articles, loadArticles, loading, total} = this.props;
+        if (articles.length < total && !loading) loadArticles(articles.length, 5, true);
     };
 
     _getItem = (data, index) => data[index];
@@ -87,6 +86,7 @@ export default connect(state => {
     return {
         articles: articlesSelector(state),
         loading: state.articles.loading,
-        loadedAll: state.articles.loadedAll,
+        total: state.articles.total,
+        error: state.articles.error,
     };
-}, {loadArticles, loadMoreArticles})(ArticlesList);
+}, {loadArticles})(ArticlesList);

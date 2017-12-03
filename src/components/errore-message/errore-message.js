@@ -2,15 +2,11 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 
-const errorMessages = {
-    '404': 'not found',
-};
-
-export default function ErrorMessage({status}) {
+export default function ErrorMessage({message}) {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>
-                {`Sorry, ${errorMessages[status]}.`}
+                {`Sorry, ${message}.`}
             </Text>
         </View>
     )

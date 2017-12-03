@@ -35,8 +35,8 @@ class ArticleDetails extends PureComponent {
 
         console.log('--- update article detail');
 
-        if (!loaded || loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
-        if (error) return <Error status={error}/>;
+        if (error) return <Error message={error}/>;
+        if (!loaded && loading) return <Loader type='bubbles' size={10} color={BLUE}/>;
 
         return (
             <ScrollView style={styles.scrollContainer}>
@@ -80,7 +80,6 @@ class ArticleDetails extends PureComponent {
     };
 
     openImagesViewer = () => {
-        debugger;
         this.setState({imagesViewerVisible: true});
     }
 }
