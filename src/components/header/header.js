@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {BLUE, WHITE} from '../../colors';
+import { View, Text, StyleSheet } from 'react-native';
+import { BLUE, WHITE } from '../../colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-export default function ({navigation}) {
+export default function ({ navigation }) {
     return (
         <View style={styles.container}>
             <Ionicons

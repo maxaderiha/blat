@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import {BLUE, WHITE} from '../../colors';
+import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { BLUE, WHITE } from '../../colors';
 
 
-export default function Tags({tags}) {
+export default function Tags({ tags }) {
     return (
         <View style={styles.container}>
             {tags.map(

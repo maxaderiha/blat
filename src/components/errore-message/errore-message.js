@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 
-export default function ErrorMessage({message}) {
+export default function ErrorMessage({ message }) {
     return (
         <View style={styles.container}>
             <Text style={styles.text}>

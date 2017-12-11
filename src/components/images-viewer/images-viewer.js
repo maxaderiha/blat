@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ImageViewer from 'react-native-image-zoom-viewer';
-import {Modal, Dimensions} from 'react-native';
+import { Modal, Dimensions } from 'react-native';
 
 
 export default class ImagesViewer extends Component {
@@ -15,14 +15,14 @@ export default class ImagesViewer extends Component {
     }
 
     render() {
-        const {isOpen, handleOnRequestClose, images = []} = this.props;
+        const { isOpen, handleOnRequestClose, images = [] } = this.props;
         return (
             <Modal
                 visible={isOpen}
                 transparent={true}
                 onRequestClose={handleOnRequestClose}
             >
-                <ImageViewer imageUrls={images} key={Date.now()}/>
+                <ImageViewer imageUrls={images} key={Date.now()} />
             </Modal>
         )
     }
@@ -32,6 +32,6 @@ export default class ImagesViewer extends Component {
     };
 
     handelOrientationChange = () => {
-        this.setState(prevState => ({orientation: !prevState.orientation}));
+        this.setState(prevState => ({ orientation: !prevState.orientation }));
     };
 }

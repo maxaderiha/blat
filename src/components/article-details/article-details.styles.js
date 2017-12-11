@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {DARK_GRAY, GRAY, WHITE} from '../../colors';
+import { StyleSheet } from 'react-native';
+import { DARK_GRAY, GRAY, WHITE } from '../../colors';
 
 
 export const styles = StyleSheet.create({

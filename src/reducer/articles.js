@@ -6,8 +6,8 @@ import {
     START,
     SUCCESS,
 } from '../constants';
-import {OrderedMap, Record} from 'immutable';
-import {arrToMap} from '../utils/transform-collections';
+import { OrderedMap, Record } from 'immutable';
+import { arrToMap } from '../utils/transform-collections';
 
 
 const ArticleRecord = Record({
@@ -34,7 +34,7 @@ const ReducerState = new Record({
 const defaultArticlesState = ReducerState();
 
 export default (articlesState = defaultArticlesState, action) => {
-    const {type, payload} = action;
+    const { type, payload } = action;
     debugger;
     switch (type) {
         case LOAD_ARTICLES + START:
