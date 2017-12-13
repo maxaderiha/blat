@@ -10,6 +10,8 @@ import { BLUE, GRAY, DARK_GRAY, WHITE, LIGHT_GREY } from './colors';
 import Ripple from 'react-native-material-ripple';
 
 
+
+
 const styles = StyleSheet.create({
     headerIcon: {
         margin: 16,
@@ -62,41 +64,43 @@ export const ArticlesListStack = StackNavigator({
     },
 });
 
-export const RootNavigation = TabNavigator({
-    Home: {
-        screen: ArticlesListStack,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (<Icon
-                name={'home'}
-                size={26}
-                style={{ color: tintColor }}
-            />),
-        },
-
-    },
-    Addition: {
-        screen: ArticleAdding,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (
-                <Icon
-                    name={'add'}
+export const RootNavigation = TabNavigator(
+    {
+        Home: {
+            screen: ArticlesListStack,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (<Icon
+                    name={'home'}
                     size={26}
                     style={{ color: tintColor }}
-                />
-            ),
+                />),
+            },
+
+        },
+        Addition: {
+            screen: ArticleAdding,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon
+                        name={'add'}
+                        size={26}
+                        style={{ color: tintColor }}
+                    />
+                ),
+            },
+        },
+        Search: {
+            screen: Search,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (<Icon
+                    name={'search'}
+                    size={26}
+                    style={{ color: tintColor }}
+                />),
+            },
         },
     },
-    Search: {
-        screen: Search,
-        navigationOptions: {
-            tabBarIcon: ({ tintColor }) => (<Icon
-                name={'search'}
-                size={26}
-                style={{ color: tintColor }}
-            />),
-        },
-    },
-}, {
+    {
         tabBarPosition: 'bottom',
         swipeEnabled: false,
         animationEnabled: false,
@@ -110,4 +114,5 @@ export const RootNavigation = TabNavigator({
             pressColor: LIGHT_GREY,
             indicatorStyle: { height: 0 },
         },
-    });
+    }
+);
