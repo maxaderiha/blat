@@ -13,7 +13,7 @@ export function loadArticle(id) {
     return (dispatch) => {
         dispatch({
             type: LOAD_ARTICLE + START,
-            payload: {id},
+            payload: { id },
         });
 
         fetch(`${SERVER}/article?id=${id}&projection=content&projection=images`)
@@ -26,13 +26,13 @@ export function loadArticle(id) {
             .then(response => {
                 dispatch({
                     type: LOAD_ARTICLE + SUCCESS,
-                    payload: {response, id},
+                    payload: { response, id },
                 })
             })
             .catch(error => {
                 dispatch({
                     type: LOAD_ARTICLE + FAIL,
-                    payload: {error, id},
+                    payload: { error, id },
                 })
             })
     }
@@ -70,13 +70,13 @@ export function loadArticles(skip = 0, top = 5, isMore = false) {
             .then(response => {
                 dispatch({
                     type: type + SUCCESS,
-                    payload: {response},
+                    payload: { response },
                 })
             })
             .catch(error => {
                 dispatch({
                     type: type + FAIL,
-                    payload: {error},
+                    payload: { error },
                 })
             })
     }

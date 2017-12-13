@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Bubbles, Bars, DoubleBounce, Pulse} from 'react-native-loader';
-import {WHITE} from '../../colors';
+import { View, StyleSheet } from 'react-native';
+import { Bubbles, Bars, DoubleBounce, Pulse } from 'react-native-loader';
+import { WHITE } from '../../colors';
 
 
 const styles = StyleSheet.create({
@@ -22,11 +22,11 @@ const components = {
     doubleBounce: DoubleBounce,
 };
 
-export default function Loader({type = 'bubbles', size = 10, color = '#000'}) {
+export default function Loader({ type = 'bubbles', size = 10, color = '#000' }) {
     const Spinner = components[type];
     return (
         <View style={styles.container}>
-            <Spinner size={size} color={color}/>
+            <Spinner size={size} color={color} />
         </View>
     );
 }

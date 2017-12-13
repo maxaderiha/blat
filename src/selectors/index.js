@@ -1,5 +1,5 @@
-import {createSelector} from 'reselect';
-import {mapToArr} from '../utils/transform-collections';
+import { createSelector } from 'reselect';
+import { mapToArr } from '../utils/transform-collections';
 
 
 const articlesGetter = state => state.articles.entities;
